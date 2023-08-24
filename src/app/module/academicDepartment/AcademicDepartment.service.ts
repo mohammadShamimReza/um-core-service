@@ -6,6 +6,9 @@ const insertIntoDB = async (
 ): Promise<AcademicDepartment> => {
   const result = await prisma.academicDepartment.create({
     data: academicDepartmentData,
+    include: {
+      academic_faculty: true,
+    },
   });
   return result;
 };

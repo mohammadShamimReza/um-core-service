@@ -16,7 +16,7 @@ model User {
   id   String @id @default(uuid())
   name String
 }
-
+// DONE
 model AcademicSemester {
   id         String    @id @default(uuid())
   year       Int
@@ -30,7 +30,7 @@ model AcademicSemester {
 
   @@map("academic_semesters")
 }
-
+// DONE
 model AcedemicFaculty {
   id                  String               @id @default(uuid())
   title               String
@@ -42,7 +42,7 @@ model AcedemicFaculty {
 
   @@map("academic_faculty")
 }
-
+// DONE
 model AcademicDepartment {
   id        String   @id @default(uuid())
   title     String
