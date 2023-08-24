@@ -22,13 +22,14 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, facultyFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
   console.log(options);
-  const result = await FacultyService.getAllFromDB(filters, options);
+  const result = await FacultyService.getAllFromDB(options, filters);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic department created successfully',
-    data: result,
+    message: 'Faculties fetched successfully',
+    meta: result.meta,
+    data: result.data,
   });
 });
 

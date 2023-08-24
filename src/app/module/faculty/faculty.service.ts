@@ -1,8 +1,13 @@
 import { Faculty } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
-import { facultySearchableFields } from './faculty.constant';
+import {
+  facultyRelationalFields,
+  facultyRelationalFieldsMapper,
+  facultySearchableFields,
+} from './faculty.constant';
 import { IFacultyFilterRequest } from './faculty.interface';
 
 const insertIntoDB = async (FacultyData: Faculty): Promise<Faculty> => {
@@ -19,7 +24,7 @@ const insertIntoDB = async (FacultyData: Faculty): Promise<Faculty> => {
 const getAllFromDB = async (
   filters: IFacultyFilterRequest,
   options: IPaginationOptions
-): Promise<Faculty[] | null> => {
+): Promise<IGenericResponse<Faculty[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
 
@@ -33,6 +38,31 @@ const getAllFromDB = async (
           mode: 'insensitive',
         },
       })),
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map(key => {
+        if (facultyRelationalFields.includes(key)) {
+          console.log({
+            [facultyRelationalFieldsMapper[key]]: {
+              id: (filterData as any)[key],
+            },
+          });
+          return {
+            [facultyRelationalFieldsMapper[key]]: {
+              id: (filterData as any)[key],
+            },
+          };
+        } else {
+          return {
+            [key]: {
+              equals: (filterData as any)[key],
+            },
+          };
+        }
+      }),
     });
   }
 
@@ -63,16 +93,14 @@ const getAllFromDB = async (
 
   console.log(total);
 
-  // return {
-  //   meta: {
-  //     total,
-  //     page,
-  //     limit,
-  //   },
-  //   data: result,
-  // };
-
-  return result;
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
 };
 
 const getDataById = async (id: string): Promise<Faculty | null> => {

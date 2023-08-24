@@ -20,3 +20,14 @@ export const facultySearchableFields: string[] = [
   'facultyId',
   'designation',
 ];
+
+
+export const facultyRelationalFields: string[] = [
+  'academicFacultyId',
+  'academicDepartmentId',
+];
+
+export const facultyRelationalFieldsMapper: { [key: string]: string } = {
+  academicFacultyId: 'academicFaculty',
+  academicDepartmentId: 'academicDepartment',
+};
