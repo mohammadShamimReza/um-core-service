@@ -9,6 +9,16 @@
             "date": 1692786984895,
             "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-23-08-16-success.log",
             "hash": "2eb8587144917c7c05ac570cd204c977adfbb7b4dca792d34275f70ab2371832"
+        },
+        {
+            "date": 1692792181698,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-23-08-18-success.log",
+            "hash": "f9c1aeb52b6d6b7da01be767e5ca0bd67ebad9cf1845c386b0c7c24335e30159"
+        },
+        {
+            "date": 1692845625026,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-24-08-08-success.log",
+            "hash": "c83dbabff7a1b28c32af5ceb6e16e2d277cc41f88fa9a5a9556c6891b8458697"
         }
     ],
     "hashType": "sha256"

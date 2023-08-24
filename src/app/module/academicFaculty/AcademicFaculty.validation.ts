@@ -5,12 +5,9 @@ const create = z.object({
     title: z.string({
       required_error: 'Title is required',
     }),
-    academicFacultyId: z.string({
-      required_error: 'academicFacultyId is required',
-    }),
   }),
 });
 
-export const AcademicDepartmentValidation = {
+export const AcademicFacultyValidation = {
   create,
 };
