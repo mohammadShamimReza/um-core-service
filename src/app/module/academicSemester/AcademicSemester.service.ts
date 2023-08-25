@@ -3,8 +3,8 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
+import { AcademicSemesterSearchableFields } from './academicSemester.contants';
 import { IAcademicSemeterFilterRequest } from './academicSemester.interface';
-import { AcademicSemesterSearchAbleFields } from './academicSemeter.contants';
 
 const insertIntoDB = async (
   academicSemesterData: AcademicSemester
@@ -27,7 +27,7 @@ const getAllFromDB = async (
 
   if (searchTerm) {
     andConditons.push({
-      OR: AcademicSemesterSearchAbleFields.map(field => ({
+      OR: AcademicSemesterSearchableFields.map(field => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
