@@ -64,6 +64,11 @@
             "date": 1692939655759,
             "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-25-08-11-success.log",
             "hash": "8d3e455d5e4dd730100456a9f5fe529397bcebe0f6cb1a4bc93f1689243a3b4d"
+        },
+        {
+            "date": 1692952127187,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-25-08-14-success.log",
+            "hash": "c385224b0e56a9556d5563e729d7f0f744a53371ff124f0d12664d5edcc0c41e"
         }
     ],
     "hashType": "sha256"
