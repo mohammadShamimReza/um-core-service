@@ -1,10 +1,13 @@
 import express from 'express';
-
 import validateRequest from '../../middlewares/validateRequest';
-import { StudentController } from './student.controllar';
-import { StudentValidation } from './student.validation';
+import { StudentController } from './student.controller';
+import { StudentValidation } from './student.validations';
 
 const router = express.Router();
+
+router.get('/', StudentController.getAllFromDB);
+
+router.get('/:id', StudentController.getByIdFromDB);
 
 router.post(
   '/',
@@ -12,7 +15,4 @@ router.post(
   StudentController.insertIntoDB
 );
 
-router.get('/', StudentController.getAllFromDB);
-router.get('/:id', StudentController.getDataById);
-
-export const StudentRoutes = router;
+export const studentRoutes = router;

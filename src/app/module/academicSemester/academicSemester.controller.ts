@@ -4,33 +4,28 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { AcademicSemesterFiltarableFields } from './AcademicSemester.constants';
-import { AcademicSemesterService } from './AcademicSemester.service';
+import { AcademicSemesterService } from './academicSemester.service';
+import { AcademicSemesterFilterAbleFileds } from './academicSemeter.contants';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   const result = await AcademicSemesterService.insertIntoDB(req.body);
-
   sendResponse<AcademicSemester>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Aademic semester created successfully!',
+    message: 'Academic Semster Created!!',
     data: result,
   });
 });
 
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-  const filter = pick(req.query, AcademicSemesterFiltarableFields);
-
+  const filters = pick(req.query, AcademicSemesterFilterAbleFileds);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
 
-  console.log(filter, options);
-
-  const result = await AcademicSemesterService.getAllFromDB(filter, options);
-
+  const result = await AcademicSemesterService.getAllFromDB(filters, options);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Aademic semester created fetched!',
+    message: 'Academic Semster data fetched!!',
     meta: result.meta,
     data: result.data,
   });
@@ -38,16 +33,15 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const getDataById = catchAsync(async (req: Request, res: Response) => {
   const result = await AcademicSemesterService.getDataById(req.params.id);
-
-  sendResponse<AcademicSemester>(res, {
+  sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Aademic semester retrived successfully!',
+    message: 'Academic Semster data fetched!!',
     data: result,
   });
 });
 
-export const AcademicSemesterController = {
+export const AcademicSemeterController = {
   insertIntoDB,
   getAllFromDB,
   getDataById,

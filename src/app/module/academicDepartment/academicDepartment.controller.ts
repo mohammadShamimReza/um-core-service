@@ -3,27 +3,27 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { studentFilterableFields } from './student.constants';
-import { StudentService } from './student.service';
+import { academicDepartmentFilterableFields } from './academicDepartment.contants';
+import { AcademicDepartmentService } from './academicDepartment.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
-  const result = await StudentService.insertIntoDB(req.body);
+  const result = await AcademicDepartmentService.insertIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student created successfully',
+    message: 'AcademicDepartment created successfully',
     data: result,
   });
 });
 
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, studentFilterableFields);
+  const filters = pick(req.query, academicDepartmentFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-  const result = await StudentService.getAllFromDB(filters, options);
+  const result = await AcademicDepartmentService.getAllFromDB(filters, options);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Students fetched successfully',
+    message: 'AcademicDepartments fetched successfully',
     meta: result.meta,
     data: result.data,
   });
@@ -31,16 +31,16 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await StudentService.getByIdFromDB(id);
+  const result = await AcademicDepartmentService.getByIdFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student fetched successfully',
+    message: 'AcademicDepartment fetched successfully',
     data: result,
   });
 });
 
-export const StudentController = {
+export const AcademicDepartmentController = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
