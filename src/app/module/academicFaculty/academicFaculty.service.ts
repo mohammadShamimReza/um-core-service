@@ -1,4 +1,4 @@
-import { AcademicFaculty, Prisma } from '@prisma/client';
+import { AcedemicFaculty, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -7,9 +7,9 @@ import { academicFacultySearchableFields } from './academicFaculty.constants';
 import { IAcademicFacultyFilterRequest } from './academicFaculty.interface';
 
 const insertIntoDB = async (
-  data: AcademicFaculty
-): Promise<AcademicFaculty> => {
-  const result = await prisma.academicFaculty.create({
+  data: AcedemicFaculty
+): Promise<AcedemicFaculty> => {
+  const result = await prisma.acedemicFaculty.create({
     data,
   });
 
@@ -19,7 +19,7 @@ const insertIntoDB = async (
 const getAllFromDB = async (
   filters: IAcademicFacultyFilterRequest,
   options: IPaginationOptions
-): Promise<IGenericResponse<AcademicFaculty[]>> => {
+): Promise<IGenericResponse<AcedemicFaculty[]>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = filters;
 
@@ -46,10 +46,10 @@ const getAllFromDB = async (
     });
   }
 
-  const whereConditions: Prisma.AcademicFacultyWhereInput =
+  const whereConditions: Prisma.AcedemicFacultyWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
-  const result = await prisma.academicFaculty.findMany({
+  const result = await prisma.acedemicFaculty.findMany({
     where: whereConditions,
     skip,
     take: limit,
@@ -60,7 +60,7 @@ const getAllFromDB = async (
             createdAt: 'desc',
           },
   });
-  const total = await prisma.academicFaculty.count({
+  const total = await prisma.acedemicFaculty.count({
     where: whereConditions,
   });
 
@@ -74,8 +74,30 @@ const getAllFromDB = async (
   };
 };
 
-const getByIdFromDB = async (id: string): Promise<AcademicFaculty | null> => {
-  const result = await prisma.academicFaculty.findUnique({
+const getByIdFromDB = async (id: string): Promise<AcedemicFaculty | null> => {
+  const result = await prisma.acedemicFaculty.findUnique({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
+const updateOneInDB = async (
+  id: string,
+  payload: Partial<AcedemicFaculty>
+): Promise<AcedemicFaculty> => {
+  const result = await prisma.acedemicFaculty.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
+const deleteByIdFromDB = async (id: string): Promise<AcedemicFaculty> => {
+  const result = await prisma.acedemicFaculty.delete({
     where: {
       id,
     },
@@ -87,4 +109,6 @@ export const AcademicFacultyService = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
+  updateOneInDB,
+  deleteByIdFromDB,
 };
