@@ -269,6 +269,18 @@ const startMyRegistration = async (
   };
 };
 
+const enrollIntoCourse = async (authUserId: string, payload: any) => {
+  console.log(authUserId, payload);
+
+  const student = await prisma.student.findFirst({
+    where: {
+      studentId: authUserId,
+    },
+  });
+
+  console.log(student);
+};
+
 export const semesterRegistrationService = {
   insertIntoDB,
   getAllFromDB,
@@ -276,4 +288,5 @@ export const semesterRegistrationService = {
   updateOneInDB,
   deleteByIdFromDB,
   startMyRegistration,
+  enrollIntoCourse,
 };
