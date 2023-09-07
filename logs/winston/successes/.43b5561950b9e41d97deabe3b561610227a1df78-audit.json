@@ -169,6 +169,16 @@
             "date": 1694001874029,
             "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-06-09-18-success.log",
             "hash": "669ee309a6866ca50eba461719cbdee0cbdad0a8665d06924ed76feec6428b93"
+        },
+        {
+            "date": 1694049111152,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-07-09-07-success.log",
+            "hash": "01daf63dd1643ae5c7fb80a74005c999975414c6453cb59e97cbce480e15c321"
+        },
+        {
+            "date": 1694052056488,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-07-09-08-success.log",
+            "hash": "aab722a0584b7075ff01e800a39b1b60b3ade728f19de9e83b044d4a4da341d8"
         }
     ],
     "hashType": "sha256"

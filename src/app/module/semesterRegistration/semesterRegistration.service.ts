@@ -15,7 +15,10 @@ import {
   semesterRegistrationRelationalFieldsMapper,
   semesterRegistrationSearchableFields,
 } from './semesterRegistration.constants';
-import { ISemesterRegistrationFilterRequest } from './semesterRegistration.interface';
+import {
+  IEnrollCoursePayload,
+  ISemesterRegistrationFilterRequest,
+} from './semesterRegistration.interface';
 
 const insertIntoDB = async (
   data: SemesterRegistration
@@ -269,7 +272,10 @@ const startMyRegistration = async (
   };
 };
 
-const enrollIntoCourse = async (authUserId: string, payload: any) => {
+const enrollIntoCourse = async (
+  authUserId: string,
+  payload: IEnrollCoursePayload
+) => {
   console.log(authUserId, payload);
 
   const student = await prisma.student.findFirst({
@@ -279,6 +285,101 @@ const enrollIntoCourse = async (authUserId: string, payload: any) => {
   });
 
   console.log(student);
+
+  const semesterRegistration = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: SemesterRegistrationStatus.ONGOING,
+    },
+  });
+
+  const offeredCourse = await prisma.offeredCourse.findFirst({
+    where: { id: payload.offeredCourseId },
+    include: {
+      course: true,
+    },
+  });
+  const offeredCourseSection = await prisma.offeredCourseSection.findFirst({
+    where: {
+      id: payload.offeredCourseSectionId,
+    },
+  });
+
+  if (!student) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Student is not found');
+  }
+  if (!semesterRegistration) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'semester registration is not found'
+    );
+  }
+  if (!offeredCourse) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Offered course is not found');
+  }
+  if (!offeredCourseSection) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'offered course section is not found'
+    );
+  }
+
+  if (
+    offeredCourseSection.maxCapacity &&
+    offeredCourseSection.currentEnrolledStudent &&
+    offeredCourseSection.currentEnrolledStudent >=
+      offeredCourseSection.maxCapacity
+  ) {
+    throw new ApiError(
+      httpStatus.INSUFFICIENT_STORAGE,
+      ' Student capacity is full!! '
+    );
+  }
+
+  await prisma.$transaction(async transactionClient => {
+    await transactionClient.studentSemesterRegistrationCourse.create({
+      data: {
+        studentId: student?.id,
+        semesterRegistrationId: semesterRegistration?.id,
+        offeredCourseId: payload?.offeredCourseId,
+        offeredCourseSectionId: payload?.offeredCourseSectionId,
+      },
+    });
+
+    await transactionClient.offeredCourseSection.update({
+      where: {
+        id: payload?.offeredCourseSectionId,
+      },
+      data: {
+        currentEnrolledStudent: {
+          increment: 1,
+        },
+      },
+    });
+
+    const data = await transactionClient.studentSemesterRegistration.updateMany(
+      {
+        where: {
+          student: {
+            id: student?.id,
+          },
+          semesterRegistration: {
+            id: semesterRegistration?.id,
+          },
+        },
+        data: {
+          totalCreditsTaken: {
+            increment: offeredCourse.course.credit,
+          },
+        },
+      }
+    );
+
+    console.log(data, 'this is from data');
+  });
+
+  return {
+    message: 'successfully enrolled into course',
+  };
 };
 
 export const semesterRegistrationService = {

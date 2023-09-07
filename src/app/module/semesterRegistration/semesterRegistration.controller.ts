@@ -81,7 +81,6 @@ const startMyRegistration = catchAsync(async (req: Request, res: Response) => {
 
 const enrollIntoCourse = catchAsync(async (req: Request, res: Response) => {
   const user = (req as any).user;
-  console.log(user);
   const result = await semesterRegistrationService.enrollIntoCourse(
     user?.userId,
     req.body
