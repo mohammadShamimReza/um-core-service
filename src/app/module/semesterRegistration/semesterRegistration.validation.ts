@@ -37,7 +37,19 @@ const update = z.object({
   }),
 });
 
+const enrollOrWithdrawFromCourse = z.object({
+  body: z.object({
+    offeredCourseId: z.string({
+      required_error: 'Offered Course ID is required',
+    }),
+    offeredCourseSectionId: z.string({
+      required_error: ' offered Course id is required',
+    }),
+  }),
+});
+
 export const SemesterRegistrationValidation = {
   create,
   update,
+  enrollOrWithdrawFromCourse,
 };

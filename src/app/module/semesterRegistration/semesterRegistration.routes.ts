@@ -37,8 +37,21 @@ router.delete(
 
 router.post(
   '/enroll-into-course',
-  // auth(ENUM_USER_ROLE.STUDENT),
+  auth(ENUM_USER_ROLE.STUDENT),
+  validateRequest(SemesterRegistrationValidation.enrollOrWithdrawFromCourse),
   SemesterRegistrationController.enrollIntoCourse
+);
+router.post(
+  '/withdraw-from-course',
+  auth(ENUM_USER_ROLE.STUDENT),
+  validateRequest(SemesterRegistrationValidation.enrollOrWithdrawFromCourse),
+  SemesterRegistrationController.withdrawFromCourse
+);
+
+router.post(
+  '/confirm_my-registration',
+  // auth(ENUM_USER_ROLE.STUDENT),
+  SemesterRegistrationController.confirmMyRegistration
 );
 
 export const SemesterRegistrationRouters = router;
