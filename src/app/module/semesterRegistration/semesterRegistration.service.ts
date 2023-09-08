@@ -1,8 +1,11 @@
 import {
+  Course,
+  OfferedCourse,
   Prisma,
   SemesterRegistration,
   SemesterRegistrationStatus,
   StudentSemesterRegistration,
+  StudentSemesterRegistrationCourse,
 } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
@@ -446,7 +449,7 @@ const startNewSemester = async (
     });
 
     const studentSemesterRegistrations =
-      await prisma.studentSemesterRegistration.findMany({
+      await prismaTransactionClient.studentSemesterRegistration.findMany({
         where: {
           semesterRegistration: {
             id,
@@ -458,7 +461,56 @@ const startNewSemester = async (
     asyncForEach(
       studentSemesterRegistrations,
       async (studentSemReg: StudentSemesterRegistration) => {
-        console.log(studentSemReg);
+        const studentSemesterRegistrationCourse =
+          await prisma.studentSemesterRegistrationCourse.findMany({
+            where: {
+              semesterRegistration: {
+                id,
+              },
+              student: {
+                id: studentSemReg.studentId,
+              },
+            },
+            include: {
+              offeredCourse: {
+                include: {
+                  course: true,
+                },
+              },
+            },
+          });
+
+        asyncForEach(
+          studentSemesterRegistrationCourse,
+          async (
+            item: StudentSemesterRegistrationCourse & {
+              offeredCourse: OfferedCourse & {
+                course: Course;
+              };
+            }
+          ) => {
+            const isExistEnrolledData =
+              await prisma.studentEnrolledCourse.findFirst({
+                where: {
+                  studentId: item.studentId,
+                  courseId: item.offeredCourse.courseId,
+                  academicSemesterId: semesterRegistration.academicSemesterId,
+                },
+              });
+
+            if (!isExistEnrolledData) {
+              const enrolledCourseData = {
+                studentId: item.studentId,
+                courseId: item.offeredCourse.courseId,
+                academicSemesterId: semesterRegistration.academicSemesterId,
+              };
+
+              await prisma.studentEnrolledCourse.create({
+                data: enrolledCourseData,
+              });
+            }
+          }
+        );
       }
     );
   });

@@ -29,6 +29,7 @@ model AcademicSemester {
   updatedAt  DateTime  @updatedAt
   student    Student[]
   SemesterRegistrations SemesterRegistration[]
+  studentEnrolledCourses StudentEnrolledCourse[]
 
   @@map("academic_semesters")
 }
@@ -85,6 +86,7 @@ model Student {
 
   studentSemesterRegistrations StudentSemesterRegistration[]
   studentSemesterRegistrationCourses StudentSemesterRegistrationCourse[]
+  studentEnrolledCourses StudentEnrolledCourse[]
 
   @@map("students")
 }
@@ -150,6 +152,7 @@ model Course {
   preRequisiteFor CourseToPrerequisite[] @relation("PrerequisiteToCourse")
   faculties CourseFaculty[]
   offeredCourses OfferedCourse[]
+  studentEnrolledCourses StudentEnrolledCourse[]
 
   @@map("courses")
 }
@@ -284,6 +287,23 @@ model StudentSemesterRegistrationCourse {
   @@map("student_semester_registration_cousrses")
 }
 
+model StudentEnrolledCourse {
+  id String @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  studentId String
+  student Student @relation(fields: [studentId], references: [id])
+  courseId String
+  course Course @relation(fields: [courseId], references: [id])
+  academicSemesterId String
+  acedemicSemester AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+  grade String?
+  point Float? @default(0)
+  totalMarks Int? @default(0)
+  status StudentEnrolledCourseStatus? @default(ONGOING)
+
+}
+
 
 enum SemesterRegistrationStatus {
   UPCOMING
@@ -301,3 +321,8 @@ enum WeekDays {
   FRIDAY
 }
 
+enum StudentEnrolledCourseStatus {
+  ONGOING
+  COMPLETED
+  WITHDRAWN
+}
