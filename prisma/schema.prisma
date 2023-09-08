@@ -30,6 +30,9 @@ model AcademicSemester {
   student    Student[]
   SemesterRegistrations SemesterRegistration[]
   studentEnrolledCourses StudentEnrolledCourse[]
+  studentEnrolledCourseMarks StudentEnrolledCourseMark[]
+  studentSemesterPayments StudentSemesterPayment[]
+  
 
   @@map("academic_semesters")
 }
@@ -87,6 +90,8 @@ model Student {
   studentSemesterRegistrations StudentSemesterRegistration[]
   studentSemesterRegistrationCourses StudentSemesterRegistrationCourse[]
   studentEnrolledCourses StudentEnrolledCourse[]
+  studentEnrolledCourseMarks StudentEnrolledCourseMark[]
+  studentSemesterPayments StudentSemesterPayment[]
 
   @@map("students")
 }
@@ -301,7 +306,46 @@ model StudentEnrolledCourse {
   point Float? @default(0)
   totalMarks Int? @default(0)
   status StudentEnrolledCourseStatus? @default(ONGOING)
+  studentEnrolledCourseMarks StudentEnrolledCourseMark[]
 
+
+  @@map("student_enrolled_course")
+}
+
+model StudentEnrolledCourseMark {
+  id String @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt 
+  studentId String
+  student Student @relation(fields: [studentId], references: [id])
+  studentEnrolledCourseId String
+  studentEnrolledCourse StudentEnrolledCourse @relation(fields: [studentEnrolledCourseId], references: [id])
+  academicSemesterId String
+  acedemicSemester AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+  grade String?
+  marks Int? 
+  examType ExamType? @default(MIDTERM)
+
+  
+@@map("student_enrolled_course_marks")
+}
+
+model StudentSemesterPayment {
+  id String @id @default(uuid())
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt 
+  studentId String
+  student Student @relation(fields: [studentId], references: [id])
+  academicSemesterId String
+  acedemicSemester AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+  fullPaymentAmount Int? @default(0)
+  partialPaymentAmount Int? @default(0)
+  totalDueAmount Int? @default(0)
+  totalPayedAmount Int? @default(0)
+  paymentStatus PaymentStatus
+
+
+@@map("student_semester_payments")
 }
 
 
@@ -317,7 +361,7 @@ enum WeekDays {
   MONDAY
   TUESDAY
   WEDNESDAY
-  THRUSDAY
+  THRUSDAYStudentSemesterPayment
   FRIDAY
 }
 
@@ -325,4 +369,16 @@ enum StudentEnrolledCourseStatus {
   ONGOING
   COMPLETED
   WITHDRAWN
+}
+
+
+enum ExamType {
+  MIDTERM
+  FINAL
+}
+
+enum PaymentStatus {
+  PENDING
+  PARTIAL_PAID
+  FULL_PAID
 }
