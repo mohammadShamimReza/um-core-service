@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PaymentStatus, PrismaClient } from '@prisma/client';
 import {
   DefaultArgs,
   PrismaClientOptions,
@@ -11,10 +11,37 @@ const createSemesterPayment = async (
   >,
   payload: {
     studentId: string;
-    acaddmicSemesterId: string;
+    academicSemesterId: string;
     totalPaymentAmount: number;
   }
 ) => {
+  const isExist = prismaClient.studentSemesterPayment.findFirst({
+    where: {
+      student: {
+        id: payload.studentId,
+      },
+      academicSemester: {
+        id: payload.academicSemesterId,
+      },
+    },
+  });
+
+  if (!isExist) {
+    const dataToInsert = {
+      studentId: payload.studentId,
+      academicSemesterId: payload.academicSemesterId,
+      fullPaymentAmount: payload.totalPaymentAmount,
+      partialPaymentAmount: payload.totalPaymentAmount * 0.5,
+      totalDueAmount: payload.totalPaymentAmount,
+      totalPayedAmount: 0,
+      paymentStatus: PaymentStatus.PENDING,
+    };
+
+    await prismaClient.studentSemesterPayment.create({
+      data: dataToInsert,
+    });
+  }
+
   console.log(payload, prismaClient, 'semesterPayment');
 };
 
