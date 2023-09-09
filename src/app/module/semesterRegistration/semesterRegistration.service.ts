@@ -14,7 +14,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
 import { asyncForEach } from '../../../shared/utils';
-import { createStudentEnrolledCourseDefaultMarkService } from '../studentEnrolledCourseMark/studentEnrolledCourseMark.service';
+import { StudentEnrolledCourseDefaultMarkService } from '../studentEnrolledCourseMark/studentEnrolledCourseMark.service';
 import { StudentSemesterPaymentService } from '../studentSemesterPayment/studentSemesterPayment.service';
 import { studentSemesterRegistrationCourse } from '../studentSemesterRegistrationCourse/studentSemesterRegistrationCourse.service';
 import {
@@ -526,7 +526,7 @@ const startNewSemester = async (
                   data: enrolledCourseData,
                 });
 
-              await createStudentEnrolledCourseDefaultMarkService.createStudentEnrolledCourseDefaultMark(
+              await StudentEnrolledCourseDefaultMarkService.createStudentEnrolledCourseDefaultMark(
                 prismaTransactionClient,
                 {
                   studentId: studentEnrolledCourseData.studentId,

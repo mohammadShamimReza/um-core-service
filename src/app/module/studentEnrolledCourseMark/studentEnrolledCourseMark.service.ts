@@ -92,10 +92,13 @@ const createStudentEnrolledCourseDefaultMark = async (
       },
     });
   }
-
-  console.log(prismaClient, payload, 'default marks');
 };
 
-export const createStudentEnrolledCourseDefaultMarkService = {
+const updateStudentMark = async (payload: any) => {
+  console.log(payload);
+};
+
+export const StudentEnrolledCourseDefaultMarkService = {
   createStudentEnrolledCourseDefaultMark,
+  updateStudentMark,
 };
