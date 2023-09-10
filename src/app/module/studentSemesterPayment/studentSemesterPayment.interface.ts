@@ -1,6 +1,5 @@
-export type IStudentEnrolledCourseFilterRequest = {
+export type IStudentSemesterPaymentFilterRequest = {
   searchTerm?: string | undefined;
   academicSemesterId?: string | undefined;
   studentId?: string | undefined;
-  courseId?: string | undefined;
 };
