@@ -16,7 +16,7 @@ import prisma from '../../../shared/prisma';
 import { asyncForEach } from '../../../shared/utils';
 import { StudentEnrolledCourseDefaultMarkService } from '../studentEnrolledCourseMark/studentEnrolledCourseMark.service';
 import { StudentSemesterPaymentService } from '../studentSemesterPayment/studentSemesterPayment.service';
-import { studentSemesterRegistrationCourse } from '../studentSemesterRegistrationCourse/studentSemesterRegistrationCourse.service';
+import { studentSemesterRegistrationCourseService } from '../studentSemesterRegistrationCourse/studentSemesterRegistrationCourse.service';
 import {
   semesterRegistrationRelationalFields,
   semesterRegistrationRelationalFieldsMapper,
@@ -30,7 +30,7 @@ import {
 const insertIntoDB = async (
   data: SemesterRegistration
 ): Promise<SemesterRegistration> => {
-  const isAnySemesterRegUpcommingOrOngoing =
+  const isAnySemesterRegUpcomingOrOngoing =
     await prisma.semesterRegistration.findFirst({
       where: {
         OR: [
@@ -44,10 +44,10 @@ const insertIntoDB = async (
       },
     });
 
-  if (isAnySemesterRegUpcommingOrOngoing) {
+  if (isAnySemesterRegUpcomingOrOngoing) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      `there is  already an ${isAnySemesterRegUpcommingOrOngoing.status} registration`
+      `Thers is already an ${isAnySemesterRegUpcomingOrOngoing.status} registration.`
     );
   }
 
@@ -143,10 +143,13 @@ const getByIdFromDB = async (
   return result;
 };
 
+// UPCOMING > ONGOING  > ENDED
+
 const updateOneInDB = async (
   id: string,
   payload: Partial<SemesterRegistration>
 ): Promise<SemesterRegistration> => {
+  console.log(payload.status);
   const isExist = await prisma.semesterRegistration.findUnique({
     where: {
       id,
@@ -154,19 +157,9 @@ const updateOneInDB = async (
   });
 
   if (!isExist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Course not found', id);
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Data not found!');
   }
-  if (
-    payload.status &&
-    isExist.status === SemesterRegistrationStatus.ONGOING &&
-    payload.status !== SemesterRegistrationStatus.ENDED
-  ) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'can only move from ongoing to ended',
-      id
-    );
-  }
+
   if (
     payload.status &&
     isExist.status === SemesterRegistrationStatus.UPCOMING &&
@@ -174,8 +167,18 @@ const updateOneInDB = async (
   ) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'can only move from upcoming to ongoing',
-      id
+      'Can only move from UPCOMING to ONGOING'
+    );
+  }
+
+  if (
+    payload.status &&
+    isExist.status === SemesterRegistrationStatus.ONGOING &&
+    payload.status !== SemesterRegistrationStatus.ENDED
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Can only move from ONGOING to ENDED'
     );
   }
 
@@ -216,7 +219,7 @@ const startMyRegistration = async (
     },
   });
   if (!studentInfo) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Student not Found');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Student Info not found!');
   }
 
   const semesterRegistrationInfo = await prisma.semesterRegistration.findFirst({
@@ -229,19 +232,20 @@ const startMyRegistration = async (
       },
     },
   });
+
   if (
     semesterRegistrationInfo?.status === SemesterRegistrationStatus.UPCOMING
   ) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'Registration is not startd yet'
+      'Registration is not started yet'
     );
   }
 
-  let studentRegistretion = await prisma.studentSemesterRegistration.findFirst({
+  let studentRegistration = await prisma.studentSemesterRegistration.findFirst({
     where: {
       student: {
-        id: studentInfo.id,
+        id: studentInfo?.id,
       },
       semesterRegistration: {
         id: semesterRegistrationInfo?.id,
@@ -249,8 +253,8 @@ const startMyRegistration = async (
     },
   });
 
-  if (!studentRegistretion) {
-    studentRegistretion = await prisma.studentSemesterRegistration.create({
+  if (!studentRegistration) {
+    studentRegistration = await prisma.studentSemesterRegistration.create({
       data: {
         student: {
           connect: {
@@ -264,18 +268,11 @@ const startMyRegistration = async (
         },
       },
     });
-  } else {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'Semester is already registered'
-    );
   }
-
-  console.log(semesterRegistrationInfo);
 
   return {
     semesterRegistration: semesterRegistrationInfo,
-    studentSemesterRegistration: studentRegistretion,
+    studentSemesterRegistration: studentRegistration,
   };
 };
 
@@ -285,19 +282,19 @@ const enrollIntoCourse = async (
 ): Promise<{
   message: string;
 }> => {
-  return studentSemesterRegistrationCourse.enrollIntoCourse(
+  return studentSemesterRegistrationCourseService.enrollIntoCourse(
     authUserId,
     payload
   );
 };
 
-const withdrawFromCourse = async (
+const withdrewFromCourse = async (
   authUserId: string,
   payload: IEnrollCoursePayload
 ): Promise<{
   message: string;
 }> => {
-  return studentSemesterRegistrationCourse.withdrawFromCourse(
+  return studentSemesterRegistrationCourseService.withdrewFromCourse(
     authUserId,
     payload
   );
@@ -305,15 +302,14 @@ const withdrawFromCourse = async (
 
 const confirmMyRegistration = async (
   authUserId: string
-): Promise<{
-  message: string;
-}> => {
+): Promise<{ message: string }> => {
   const semesterRegistration = await prisma.semesterRegistration.findFirst({
     where: {
       status: SemesterRegistrationStatus.ONGOING,
     },
   });
 
+  // 3 - 6
   const studentSemesterRegistration =
     await prisma.studentSemesterRegistration.findFirst({
       where: {
@@ -329,21 +325,21 @@ const confirmMyRegistration = async (
   if (!studentSemesterRegistration) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'you are not recognized for this semester'
+      'You are not recognized for this semester!'
     );
   }
 
   if (studentSemesterRegistration.totalCreditsTaken === 0) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'You are not enrolled in any course'
+      'You are not enrolled in any course!'
     );
   }
 
   if (
     studentSemesterRegistration.totalCreditsTaken &&
-    semesterRegistration?.maxCredit &&
-    semesterRegistration.minCredit &&
+    semesterRegistration?.minCredit &&
+    semesterRegistration.maxCredit &&
     (studentSemesterRegistration.totalCreditsTaken <
       semesterRegistration?.minCredit ||
       studentSemesterRegistration.totalCreditsTaken >
@@ -351,7 +347,7 @@ const confirmMyRegistration = async (
   ) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      `you can take only ${semesterRegistration.minCredit} to ${semesterRegistration.maxCredit}`
+      `You can take only ${semesterRegistration.minCredit} to ${semesterRegistration.maxCredit} credits`
     );
   }
 
@@ -363,12 +359,8 @@ const confirmMyRegistration = async (
       isConfirmed: true,
     },
   });
-
-  console.log('semester registration', semesterRegistration);
-  console.log('student semester registration', studentSemesterRegistration);
-
   return {
-    message: 'Your registration is confirmed',
+    message: 'Your registration is confirmed!',
   };
 };
 
@@ -417,21 +409,22 @@ const startNewSemester = async (
   if (!semesterRegistration) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'Semester registration not found'
+      'Semester Registration Not found!'
     );
   }
+
   if (semesterRegistration.status !== SemesterRegistrationStatus.ENDED) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'Semester registration is not ended yet'
+      'Semester Registration is not ended yet!'
     );
   }
 
   if (semesterRegistration.academicSemester.isCurrent) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Semester is already started');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Semester is already started!');
   }
 
-  prisma.$transaction(async prismaTransactionClient => {
+  await prisma.$transaction(async prismaTransactionClient => {
     await prismaTransactionClient.academicSemester.updateMany({
       where: {
         isCurrent: true,
@@ -443,7 +436,7 @@ const startNewSemester = async (
 
     await prismaTransactionClient.academicSemester.update({
       where: {
-        id: semesterRegistration.academicSemester.id,
+        id: semesterRegistration.academicSemesterId,
       },
       data: {
         isCurrent: true,
@@ -451,7 +444,7 @@ const startNewSemester = async (
     });
 
     const studentSemesterRegistrations =
-      await prismaTransactionClient.studentSemesterRegistration.findMany({
+      await prisma.studentSemesterRegistration.findMany({
         where: {
           semesterRegistration: {
             id,
@@ -460,22 +453,23 @@ const startNewSemester = async (
         },
       });
 
-    asyncForEach(
+    await asyncForEach(
       studentSemesterRegistrations,
       async (studentSemReg: StudentSemesterRegistration) => {
         if (studentSemReg.totalCreditsTaken) {
-          const totalPaymentAmount = studentSemReg.totalCreditsTaken * 5000;
+          const totalSemesterPaymentAmount =
+            studentSemReg.totalCreditsTaken * 5000;
+
           await StudentSemesterPaymentService.createSemesterPayment(
             prismaTransactionClient,
             {
               studentId: studentSemReg.studentId,
               academicSemesterId: semesterRegistration.academicSemesterId,
-
-              totalPaymentAmount: totalPaymentAmount,
+              totalPaymentAmount: totalSemesterPaymentAmount,
             }
           );
         }
-        const studentSemesterRegistrationCourse =
+        const studentSemesterRegistrationCourses =
           await prismaTransactionClient.studentSemesterRegistrationCourse.findMany(
             {
               where: {
@@ -495,9 +489,8 @@ const startNewSemester = async (
               },
             }
           );
-
-        asyncForEach(
-          studentSemesterRegistrationCourse,
+        await asyncForEach(
+          studentSemesterRegistrationCourses,
           async (
             item: StudentSemesterRegistrationCourse & {
               offeredCourse: OfferedCourse & {
@@ -508,9 +501,11 @@ const startNewSemester = async (
             const isExistEnrolledData =
               await prismaTransactionClient.studentEnrolledCourse.findFirst({
                 where: {
-                  studentId: item.studentId,
-                  courseId: item.offeredCourse.courseId,
-                  academicSemesterId: semesterRegistration.academicSemesterId,
+                  student: { id: item.studentId },
+                  course: { id: item.offeredCourse.courseId },
+                  acedemicSemester: {
+                    id: semesterRegistration.academicSemesterId,
+                  },
                 },
               });
 
@@ -529,7 +524,7 @@ const startNewSemester = async (
               await StudentEnrolledCourseDefaultMarkService.createStudentEnrolledCourseDefaultMark(
                 prismaTransactionClient,
                 {
-                  studentId: studentEnrolledCourseData.studentId,
+                  studentId: item.studentId,
                   studentEnrolledCourseId: studentEnrolledCourseData.id,
                   academicSemesterId: semesterRegistration.academicSemesterId,
                 }
@@ -542,11 +537,11 @@ const startNewSemester = async (
   });
 
   return {
-    message: 'semester startd successfully',
+    message: 'Semester started successfully!',
   };
 };
 
-export const semesterRegistrationService = {
+export const SemesterRegistrationService = {
   insertIntoDB,
   getAllFromDB,
   getByIdFromDB,
@@ -554,8 +549,9 @@ export const semesterRegistrationService = {
   deleteByIdFromDB,
   startMyRegistration,
   enrollIntoCourse,
-  withdrawFromCourse,
+  withdrewFromCourse,
   confirmMyRegistration,
   getMyRegistration,
   startNewSemester,
+  //1
 };

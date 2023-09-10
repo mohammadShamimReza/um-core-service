@@ -4,15 +4,14 @@ import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { semesterRegistrationFilterableFields } from './semesterRegistration.constants';
-import { semesterRegistrationService } from './semesterRegistration.service';
+import { SemesterRegistrationService } from './semesterRegistration.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
-  const result = await semesterRegistrationService.insertIntoDB(req.body);
-
+  const result = await SemesterRegistrationService.insertIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Semester registration created successfully',
+    message: 'Semester Registration created',
     data: result,
   });
 });
@@ -20,7 +19,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, semesterRegistrationFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
-  const result = await semesterRegistrationService.getAllFromDB(
+  const result = await SemesterRegistrationService.getAllFromDB(
     filters,
     options
   );
@@ -35,7 +34,7 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await semesterRegistrationService.getByIdFromDB(id);
+  const result = await SemesterRegistrationService.getByIdFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -44,21 +43,20 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await semesterRegistrationService.updateOneInDB(id, req.body);
+  const result = await SemesterRegistrationService.updateOneInDB(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'SemesterRegistration update successfully',
+    message: 'SemesterRegistration updated successfully',
     data: result,
   });
 });
 
 const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await semesterRegistrationService.deleteByIdFromDB(id);
+  const result = await SemesterRegistrationService.deleteByIdFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -69,42 +67,41 @@ const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const startMyRegistration = catchAsync(async (req: Request, res: Response) => {
   const user = (req as any).user;
-  const result = await semesterRegistrationService.startMyRegistration(user.id);
-
+  const result = await SemesterRegistrationService.startMyRegistration(
+    user.userId
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student Semester Registration Started successfully',
+    message: 'Student SemesterRegistration started successfully',
     data: result,
   });
 });
 
 const enrollIntoCourse = catchAsync(async (req: Request, res: Response) => {
   const user = (req as any).user;
-  const result = await semesterRegistrationService.enrollIntoCourse(
-    user?.userId,
+  const result = await SemesterRegistrationService.enrollIntoCourse(
+    user.userId,
     req.body
   );
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student Semester Registration course enrolled successfully',
+    message: 'Student SemesterRegistration course enrolled successfully',
     data: result,
   });
 });
 
 const withdrawFromCourse = catchAsync(async (req: Request, res: Response) => {
   const user = (req as any).user;
-  const result = await semesterRegistrationService.withdrawFromCourse(
-    user?.userId,
+  const result = await SemesterRegistrationService.withdrewFromCourse(
+    user.userId,
     req.body
   );
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student withdraw from  course successfully',
+    message: 'Student Withdraw from successfully',
     data: result,
   });
 });
@@ -112,45 +109,41 @@ const withdrawFromCourse = catchAsync(async (req: Request, res: Response) => {
 const confirmMyRegistration = catchAsync(
   async (req: Request, res: Response) => {
     const user = (req as any).user;
-    const result = await semesterRegistrationService.confirmMyRegistration(
-      user?.userId
+    const result = await SemesterRegistrationService.confirmMyRegistration(
+      user.userId
     );
-
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'confirn you registraiton successfully !',
+      message: 'Confirm your registration!',
       data: result,
     });
   }
 );
 
 const getMyRegistration = catchAsync(async (req: Request, res: Response) => {
+  console.log('get my reg');
   const user = (req as any).user;
-  const result = await semesterRegistrationService.getMyRegistration(
-    user?.userId
+  const result = await SemesterRegistrationService.getMyRegistration(
+    user.userId
   );
-
+  console.log(result);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'My registraiton data successfully !',
+    message: 'My registration data fatched!',
     data: result,
   });
 });
 
-
 const startNewSemester = catchAsync(async (req: Request, res: Response) => {
+  // /:id/start-new-semester
   const { id } = req.params;
-
-  const result = await semesterRegistrationService.startNewSemester(
-    id
-  );
-
+  const result = await SemesterRegistrationService.startNewSemester(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Semester started successfully !',
+    message: 'Semester Started Successfully!',
     data: result,
   });
 });

@@ -112,7 +112,7 @@ const enrollIntoCourse = async (
   };
 };
 
-const withdrawFromCourse = async (
+const withdrewFromCourse = async (
   authUserId: string,
   payload: IEnrollCoursePayload
 ): Promise<{
@@ -198,7 +198,7 @@ const withdrawFromCourse = async (
   };
 };
 
-export const studentSemesterRegistrationCourse = {
+export const studentSemesterRegistrationCourseService = {
   enrollIntoCourse,
-  withdrawFromCourse,
+  withdrewFromCourse,
 };
