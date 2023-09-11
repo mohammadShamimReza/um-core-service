@@ -282,7 +282,43 @@ const updataFinalMarks = async (payload: any) => {
     },
   });
 
-  await StudentEnrolledCourseMarkUtils.calcCGPAandGrade(grades);
+  const academicResult = await StudentEnrolledCourseMarkUtils.calcCGPAandGrade(
+    grades
+  );
+
+  const studentAcademicInfo = await prisma.studentAcademicInfo.findFirst({
+    where: {
+      student: {
+        studentId,
+      },
+    },
+  });
+
+  if (studentAcademicInfo) {
+    await prisma.studentAcademicInfo.update({
+      where: {
+        id: studentAcademicInfo.id,
+      },
+      data: {
+        totalCompletedCredit: academicResult.totalCompletedCredit,
+        cgpa: academicResult.cgpa,
+      },
+    });
+  } else {
+    await prisma.studentAcademicInfo.create({
+      data: {
+        student: {
+          connect: {
+            id: studentId,
+          },
+        },
+        totalCompletedCredit: academicResult.totalCompletedCredit,
+        cgpa: academicResult.cgpa,
+      },
+    });
+  }
+
+  return grades;
 };
 
 export const StudentEnrolledCourseDefaultMarkService = {
