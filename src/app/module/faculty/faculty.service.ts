@@ -184,6 +184,93 @@ const removeCourses = async (
   return assignCoursesData;
 };
 
+
+
+const myCourses = async (
+  authUser: { userId: string; role: string },
+  filter: {
+    academicSemesterId?: string | null | undefined;
+    courseId?: string | undefined | null;
+  }
+) => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const offeredCourseSections = await prisma.offeredCourseSection.findMany({
+    where: {
+      offeredCourseClassSchedules: {
+        some: {
+          faculty: {
+            facultyId: authUser.userId,
+          },
+        },
+      },
+      offeredCourse: {
+        semesterRegistration: {
+          academicSemester: {
+            id: filter.academicSemesterId,
+          },
+        },
+      },
+    },
+    include: {
+      offeredCourse: {
+        include: {
+          course: true,
+        },
+      },
+      offeredCourseClassSchedules: {
+        include: {
+          room: {
+            include: {
+              building: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  console.log(offeredCourseSections);
+
+  const courseAndSchedule = offeredCourseSections.reduce(
+    (acc: any, obj: any) => {
+      const course = obj.offeredCourse.course;
+      const classSchedule = obj.offeredCourseClassSchedule;
+
+      const existingCourse = acc.find(
+        (item: any) => item.course?.id === course?.id
+      );
+      if (existingCourse) {
+        existingCourse.sections.push({
+          section: obj,
+          classSchedule,
+        });
+      } else {
+        acc.push({
+          course,
+          section: [
+            {
+              section: obj,
+              classSchedule,
+            },
+          ],
+        });
+      }
+      return acc;
+    },
+    []
+  );
+
+  return courseAndSchedule;
+};
+
 export const FacultyService = {
   insertIntoDB,
   getAllFromDB,
@@ -192,4 +279,5 @@ export const FacultyService = {
   deleteByIdFromDB,
   assignCourses,
   removeCourses,
+  myCourses,
 };
