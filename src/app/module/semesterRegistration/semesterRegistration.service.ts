@@ -27,6 +27,7 @@ import {
   IEnrollCoursePayload,
   ISemesterRegistrationFilterRequest,
 } from './semesterRegistration.interface';
+import { SemesterRegistrationUtils } from './semesterRegistration.utils';
 
 const insertIntoDB = async (
   data: SemesterRegistration
@@ -542,7 +543,6 @@ const startNewSemester = async (
   };
 };
 
-
 const getMySemesterRegistraitonCourses = async (authUserId: string) => {
   const student = await prisma.student.findFirst({
     where: {
@@ -583,7 +583,7 @@ const getMySemesterRegistraitonCourses = async (authUserId: string) => {
     },
   });
 
-  const studentCurrentSemesterTakenCourse =
+  const studentCurrentlyTakenCourse =
     await prisma.studentSemesterRegistrationCourse.findMany({
       where: {
         student: {
@@ -598,7 +598,6 @@ const getMySemesterRegistraitonCourses = async (authUserId: string) => {
         offeredCourseSection: true,
       },
     });
-  console.log(studentCurrentSemesterTakenCourse);
 
   const offeredCourse = await prisma.offeredCourse.findMany({
     where: {
@@ -634,6 +633,14 @@ const getMySemesterRegistraitonCourses = async (authUserId: string) => {
       },
     },
   });
+
+  const availableCourse = SemesterRegistrationUtils.getAvailableCourses(
+    offeredCourse,
+    studentCompletedCourse,
+    studentCurrentlyTakenCourse
+  );
+
+  return availableCourse;
 };
 
 export const SemesterRegistrationService = {
