@@ -1,74 +1,74 @@
 import express from 'express';
-import { academicDepartmentRoutes } from '../module/academicDepartment/academicDepartment.routes';
-import { academicFacultyRoutes } from '../module/academicFaculty/academicFaculty.routes';
-import { academicSemeterRoutes } from '../module/academicSemester/academicSemester.routes';
-import { BuildingRoutes } from '../module/building/building.routes';
-import { courseRoutes } from '../module/course/course.routes';
-import { facultyRoutes } from '../module/faculty/faculty.routes';
-import { offeredCourseRoutes } from '../module/offeredCourse/offeredCourse.routes';
-import { offeredCourseClassScheduleRoutes } from '../module/offeredCourseClassSchedule/offeredCourseClassSchedule.routes';
-import { offeredCourseSectionRoutes } from '../module/offeredCourseSection/offeredCourseSection.routes';
-import { roomRoutes } from '../module/room/room.routes';
-import { SemesterRegistrationRouters } from '../module/semesterRegistration/semesterRegistration.routes';
-import { studentRoutes } from '../module/student/student.routes';
-import { studenEnrolledCourseMarkRoutes } from '../module/studentEnrolledCourseMark/studentEnrolledCourseMark.routes';
+import { academicDepartmentRoutes } from '../modules/academicDepartment/academicDepartment.routes';
+import { academicFacultyRoutes } from '../modules/academicFaculty/academicFaculty.routes';
+import { AcademicSemeterRoutes } from '../modules/academicSemester/academicSemester.routes';
+import { buildingRoutes } from '../modules/building/building.routes';
+import { courseRoutes } from '../modules/course/course.routes';
+import { facultyRoutes } from '../modules/faculty/faculty.routes';
+import { offeredCourseRoutes } from '../modules/offeredCourse/offeredCourse.routes';
+import { offeredCourseClassScheduleRoutes } from '../modules/offeredCourseClassSchedule/offeredCourseClassSchedule.routes';
+import { offeredCourseSectionRoutes } from '../modules/offeredCourseSection/offeredCourseSection.routes';
+import { roomRoutes } from '../modules/room/room.routes';
+import { semesterRegistrationRoutes } from '../modules/semesterRegistration/semesterRegistration.routes';
+import { studentRoutes } from '../modules/student/student.routes';
+import { studentEnrolledCourseMarkRoutes } from '../modules/studentEnrolledCourseMark/studentEnrolledCourseMark.routes';
 
 const router = express.Router();
 
 const moduleRoutes = [
+  // ... routes
   {
-    path: '/academic-semesters',
-    routes: academicSemeterRoutes,
+    path: "/academic-semesters",
+    route: AcademicSemeterRoutes
+  },
+  {
+    path: '/academic-faculties',
+    route: academicFacultyRoutes
   },
   {
     path: '/academic-departments',
-    routes: academicDepartmentRoutes,
+    route: academicDepartmentRoutes
   },
   {
-    path: '/academic-faculty',
-    routes: academicFacultyRoutes,
+    path: '/faculties',
+    route: facultyRoutes
   },
   {
-    path: '/student',
-    routes: studentRoutes,
-  },
-  {
-    path: '/faculty',
-    routes: facultyRoutes,
+    path: '/students',
+    route: studentRoutes
   },
   {
     path: '/buildings',
-    routes: BuildingRoutes,
+    route: buildingRoutes
   },
   {
     path: '/rooms',
-    routes: roomRoutes,
+    route: roomRoutes
   },
   {
     path: '/courses',
-    routes: courseRoutes,
+    route: courseRoutes
   },
   {
     path: '/semester-registration',
-    routes: SemesterRegistrationRouters,
-  },
-  {
+    route: semesterRegistrationRoutes
+  }, {
     path: '/offered-courses',
-    routes: offeredCourseRoutes,
+    route: offeredCourseRoutes
   },
   {
-    path: '/offered-courses-sectios',
-    routes: offeredCourseSectionRoutes,
+    path: '/offered-course-sections',
+    route: offeredCourseSectionRoutes
   },
   {
-    path: '/offered-courses-class-schedules',
-    routes: offeredCourseClassScheduleRoutes,
+    path: '/offered-course-class-schedules',
+    route: offeredCourseClassScheduleRoutes
   },
   {
     path: '/student-enrolled-course-marks',
-    routes: studenEnrolledCourseMarkRoutes,
-  },
+    route: studentEnrolledCourseMarkRoutes
+  }
 ];
 
-moduleRoutes.forEach(route => router.use(route.path, route.routes));
+moduleRoutes.forEach(route => router.use(route.path, route.route));
 export default router;
