@@ -55,6 +55,7 @@ const updateOneInDB = catchAsync(async (req: Request, res: Response) => {
 
 const deleteByIdFromDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
+    console.log(id);
     const result = await AcademicSemesterService.deleteByIdFromDB(id);
     sendResponse(res, {
         statusCode: httpStatus.OK,

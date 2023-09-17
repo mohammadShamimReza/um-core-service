@@ -14,6 +14,36 @@
             "date": 1694826136555,
             "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-16-09-07-success.log",
             "hash": "fe53efc89e00091974a858254de0d2e77db0197fa4b01730b625ab5fcdfb9f1f"
+        },
+        {
+            "date": 1694836545705,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-16-09-09-success.log",
+            "hash": "7e94cc9604589cd0eacd6c3e44d542c6db30b2d14777b0d35c8fd853e47ad48e"
+        },
+        {
+            "date": 1694836881334,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-16-09-10-success.log",
+            "hash": "59c555229ecd10a144b26f4adecf783840337bfe2fe9a0ae3b8ffca9de0338e2"
+        },
+        {
+            "date": 1694854080157,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-16-09-14-success.log",
+            "hash": "7b6abbb80d97e09a55188424dd1345e4751211464621312b10496a35269804eb"
+        },
+        {
+            "date": 1694855053345,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-16-09-15-success.log",
+            "hash": "21943afc8688617b252301001149a8ea0aa59e42713ae4458ba560a54387db3e"
+        },
+        {
+            "date": 1694907771271,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-17-09-05-success.log",
+            "hash": "cc39e17ab1bdde4e5b1613d19605476930b166249875d83c655e5c2121a6160b"
+        },
+        {
+            "date": 1694910163763,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/successes/phu-2023-17-09-06-success.log",
+            "hash": "168887b469b6cde00ab0a6be9ad63f343ca9d01714e482d59ff8c7da686f079c"
         }
     ],
     "hashType": "sha256"

@@ -14,6 +14,31 @@
             "date": 1694826136557,
             "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-16-09-07-error.log",
             "hash": "5a27e32efca7a80fb93924e491687ed8451ae4aade9c9f1afbab445a6fc6d3be"
+        },
+        {
+            "date": 1694836881336,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-16-09-10-error.log",
+            "hash": "8d9c1dacbe2fb3024c81d7dd79f7c51d301215edaecfcea29c3339c3de99b334"
+        },
+        {
+            "date": 1694854080160,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-16-09-14-error.log",
+            "hash": "4cc25dfae6fe071fe39b95626cc677e25e42260c1727d228756de3c16a90fccd"
+        },
+        {
+            "date": 1694855053347,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-16-09-15-error.log",
+            "hash": "6e32b5afbf6ccea47a87250d8dcd375c92544f8f7e86793ccd6ac6431500bccc"
+        },
+        {
+            "date": 1694907771274,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-17-09-05-error.log",
+            "hash": "f90a8ced6b417eac7014088e99d7898ce002b4297e956313984ae39b0283b089"
+        },
+        {
+            "date": 1694910502535,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-17-09-06-error.log",
+            "hash": "d7c0d36ed9d2952d2488cace503d460adef2a8524d8412e73b6adde282972bb0"
         }
     ],
     "hashType": "sha256"
