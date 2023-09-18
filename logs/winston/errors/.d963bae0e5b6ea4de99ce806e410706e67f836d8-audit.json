@@ -39,6 +39,16 @@
             "date": 1694910502535,
             "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-17-09-06-error.log",
             "hash": "d7c0d36ed9d2952d2488cace503d460adef2a8524d8412e73b6adde282972bb0"
+        },
+        {
+            "date": 1695015598260,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-18-09-11-error.log",
+            "hash": "c2dfa5c2b1598b9649b1cd66c3dc62ad6432372cd5a12aedac749682b87ee23a"
+        },
+        {
+            "date": 1695017924504,
+            "name": "/home/msh/Documents/level2/developement/learn/backend/um-core-service/logs/winston/errors/phu-2023-18-09-12-error.log",
+            "hash": "2a944cb8b1a308d8520e690ac521308ab02a2fbc6bb66dcd8ae4d7cf15f0ad87"
         }
     ],
     "hashType": "sha256"
