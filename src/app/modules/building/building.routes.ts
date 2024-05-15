@@ -1,6 +1,4 @@
 import express from 'express';
-import { ENUM_USER_ROLE } from '../../../enums/user';
-import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { BuildingController } from './building.controller';
 import { BuildingValidations } from './building.validations';
@@ -12,7 +10,7 @@ router.get('/:id', BuildingController.getByIdFromDB);
 
 router.post(
   '/',
-  auth(ENUM_USER_ROLE.ADMIN),
+  
   validateRequest(BuildingValidations.create),
   BuildingController.insertIntoDB
 );
@@ -21,13 +19,13 @@ router.post(
 router.patch(
   '/:id',
   validateRequest(BuildingValidations.update),
-  auth(ENUM_USER_ROLE.ADMIN),
+  
   BuildingController.updateOneInDB
 );
 
 router.delete(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  
   BuildingController.deleteByIdFromDB
 );
 

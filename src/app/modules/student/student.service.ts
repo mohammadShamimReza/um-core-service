@@ -294,18 +294,18 @@ const updateStudentFromEvent = async (e: any): Promise<void> => {
         return;
     } else {
         const student: Partial<Student> = {
-            studentId: e.id,
-            firstName: e.name.firstName,
-            lastName: e.name.lastName,
-            middleName: e.name.middleName,
-            profileImage: e.profileImage,
-            email: e.email,
-            contactNo: e.contactNo,
-            gender: e.gender,
-            bloodGroup: e.bloodGroup,
-            academicDepartmentId: e.academicDepartment.syncId,
-            academicFacultyId: e.academicFaculty.syncId,
-            academicSemesterId: e.academicSemester.syncId
+          studentId: e.id,
+          firstName: e.name.firstName,
+          lastName: e.name.lastName,
+          middleName: e.name.middleName,
+          profileImage: 'http://e.profileImage',
+          email: e.email,
+          contactNo: e.contactNo,
+          gender: e.gender,
+          bloodGroup: e.bloodGroup,
+          academicDepartmentId: e.academicDepartment.syncId,
+          academicFacultyId: e.academicFaculty.syncId,
+          academicSemesterId: e.academicSemester.syncId,
         };
         await prisma.student.updateMany({
             where: {

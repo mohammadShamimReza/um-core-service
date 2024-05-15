@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "faculties" ADD COLUMN     "dateOfBirth" TEXT NOT NULL DEFAULT '2024-05-16T18:29:13.437Z',
+ADD COLUMN     "emergencyContactNo" TEXT NOT NULL DEFAULT '123456';
+
+-- AlterTable
+ALTER TABLE "students" ADD COLUMN     "dateOfBirth" TEXT NOT NULL DEFAULT '2024-05-16T18:29:13.437Z',
+ADD COLUMN     "emergencyContactNo" TEXT NOT NULL DEFAULT '123456';

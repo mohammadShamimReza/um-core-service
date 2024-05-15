@@ -1,0 +1,10 @@
+Wed May 15 2024 10:19:24 } [PH] error: 
+Invalid `prisma.faculty.create()` invocation:
+
+
+Foreign key constraint failed on the field: `faculties_academicDepartmentId_fkey (index)`
+Wed May 15 2024 10:33:58 } [PH] error: 
+Invalid `prisma.faculty.create()` invocation:
+
+
+Foreign key constraint failed on the field: `faculties_academicDepartmentId_fkey (index)`

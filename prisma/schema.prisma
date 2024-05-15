@@ -69,6 +69,9 @@ model Student {
   bloodGroup   String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  password     String @default("123456")
+  emergencyContactNo String @default("123456")
+  dateOfBirth String @default("2024-05-16T18:29:13.437Z")
 
   academicSemester   AcademicSemester @relation(fields: [academicSemesterId], references: [id])
   academicSemesterId String
@@ -102,6 +105,9 @@ model Faculty {
   designation  String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  password     String @default("123456")
+  emergencyContactNo String @default("123456")
+  dateOfBirth String @default("2024-05-16T18:29:13.437Z")
 
   academicDepartment   AcademicDepartment @relation(fields: [academicDepartmentId], references: [id])
   academicDepartmentId String

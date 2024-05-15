@@ -24,6 +24,51 @@
             "date": 1715724120036,
             "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-04-success.log",
             "hash": "eb72ef40f32cee2bd5f9657bad38d469252a64b0688bf554aba8969bc5e8d348"
+        },
+        {
+            "date": 1715732487869,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-06-success.log",
+            "hash": "437a83443796eb924c8dce9459bbc60c57e339645d123de37b4124be3d81f817"
+        },
+        {
+            "date": 1715736627492,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-07-success.log",
+            "hash": "e5bc6051cc74b08cbdbca2e38a2996ac8c04eb17f9556a96c387359ace574446"
+        },
+        {
+            "date": 1715739590974,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-08-success.log",
+            "hash": "27b1697181b4d5a05c7260c0a64e5d342328bd63367322b71fa05c2da453cc36"
+        },
+        {
+            "date": 1715742076852,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-09-success.log",
+            "hash": "7d62f6eba980e15a57323ccc93d0f8b1d0d8fa57e5509f334a023cb9cbfb9273"
+        },
+        {
+            "date": 1715746486697,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-10-success.log",
+            "hash": "781340217ad3696485732535379095b20b30d62903eb89c9b218f3ca03b93fd8"
+        },
+        {
+            "date": 1715792224913,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-22-success.log",
+            "hash": "7c229dabc5e5dfead0e8388f383eb52ca718bda245349070fcf65f975761132c"
+        },
+        {
+            "date": 1715795156418,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-15-05-23-success.log",
+            "hash": "4119949bec769a8f671f2209ac1cf20b5037700b71cebe06d558a7e3cb43276d"
+        },
+        {
+            "date": 1715796217601,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-16-05-00-success.log",
+            "hash": "93b14a564315eb252fdf5479723d080c8e7dea41898b5c80e1aa3189d550fa96"
+        },
+        {
+            "date": 1715800063992,
+            "name": "/home/msh/Documents/universityproject/university-management-core-service/logs/winston/successes/phu-2024-16-05-01-success.log",
+            "hash": "176383580a6df60c2750a8b8a6a77ecdd006f7837e573d35a431aed06168dcec"
         }
     ],
     "hashType": "sha256"

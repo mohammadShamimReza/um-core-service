@@ -7,6 +7,7 @@ import { facultyFilterableFields } from './faculty.constants';
 import { FacultyService } from './faculty.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
+    console.log(req.body);
     const result = await FacultyService.insertIntoDB(req.body);
     sendResponse(res, {
         statusCode: httpStatus.OK,
