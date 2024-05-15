@@ -91,6 +91,42 @@ model Student {
   @@map("students")
 }
 
+
+model Admin {
+  id           String   @id @default(uuid())
+  firstName    String
+  lastName     String
+  middleName   String
+  profileImage String?
+  email        String
+  contactNo    String
+  gender       String
+  bloodGroup   String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  password     String @default("123456")
+  emergencyContactNo String @default("123456")
+  dateOfBirth String @default("2024-05-16T18:29:13.437Z")
+
+  managementDepartment ManagementDepartment @relation(fields: [managementDepartmentId], references: [id])
+  managementDepartmentId String
+
+
+
+
+  @@map("admin")
+}
+
+
+model ManagementDepartment {
+    id           String   @id @default(uuid())
+  title String
+
+  admin Admin[]
+
+  @@map("managementDepartment")
+}
+
 model Faculty {
   id           String   @id @default(uuid())
   facultyId    String
