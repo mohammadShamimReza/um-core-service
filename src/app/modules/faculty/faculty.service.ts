@@ -24,7 +24,7 @@ const getAllFromDB = async (
 ): Promise<IGenericResponse<Faculty[]>> => {
     const { limit, page, skip } = paginationHelpers.calculatePagination(options);
     const { searchTerm, ...filterData } = filters;
-
+console.log(searchTerm);
     const andConditions = [];
 
     if (searchTerm) {

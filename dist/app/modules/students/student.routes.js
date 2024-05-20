@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.studentRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const student_controller_1 = require("./student.controller");
+const student_validations_1 = require("./student.validations");
+const router = express_1.default.Router();
+router.get('/', student_controller_1.StudentController.getAllFromDB);
+router.get('/my-courses', student_controller_1.StudentController.myCourses);
+router.get('/my-course-schedules', student_controller_1.StudentController.getMyCourseSchedules);
+router.get('/my-academic-info', student_controller_1.StudentController.myAcademicInfo);
+router.get('/:id', student_controller_1.StudentController.getByIdFromDB);
+router.post('/', (0, validateRequest_1.default)(student_validations_1.StudentValidation.create), student_controller_1.StudentController.insertIntoDB);
+router.patch('/:id', (0, validateRequest_1.default)(student_validations_1.StudentValidation.update), student_controller_1.StudentController.updateIntoDB);
+router.delete('/:id', student_controller_1.StudentController.deleteFromDB);
+exports.studentRoutes = router;

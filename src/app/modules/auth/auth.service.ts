@@ -29,10 +29,16 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
         password: password, // Match the password
       },
     });
-    isUserExist = (await findFaculty) || findStudent;
+    const findAdmin = await prisma.admin.findFirst({
+      where: {
+        email: email, // Match the email
+        password: password, // Match the password
+      },
+    });
+    isUserExist = (await findFaculty) || findStudent || findAdmin;
 
-    role = findStudent ? 'student' : 'faculty';
-    userId = findStudent ? findStudent.id : findFaculty?.id;
+    role = findStudent ? 'student' : findAdmin ? 'admin' : 'faculty';
+    userId = findStudent ? findStudent.id : findFaculty ? findFaculty?.id : findAdmin?.id;
 
     if (!isUserExist) {
       throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');

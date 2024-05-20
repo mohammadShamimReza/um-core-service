@@ -24,7 +24,7 @@ router.get('/:id', StudentController.getByIdFromDB);
 
 router.post(
   '/',
-  
+
   validateRequest(StudentValidation.create),
   StudentController.insertIntoDB
 );

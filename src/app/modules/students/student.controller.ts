@@ -7,6 +7,7 @@ import { studentFilterableFields } from './student.constants';
 import { StudentService } from './student.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
+    console.log(req.body);
     const result = await StudentService.insertIntoDB(req.body);
     sendResponse(res, {
         statusCode: httpStatus.OK,

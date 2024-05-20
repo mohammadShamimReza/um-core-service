@@ -34,6 +34,8 @@ const getAllFromDB = async (
 
     const andConditions = [];
 
+    console.log(filters);
+
     if (searchTerm) {
         andConditions.push({
             OR: academicFacultySearchableFields.map((field) => ({

@@ -15,7 +15,7 @@ router.get('/my-course-students', FacultyController.getMyCourseStudents);
 
 router.post(
   '/',
-  // validateRequest(FacultyValidation.create),
+  validateRequest(FacultyValidation.create),
   FacultyController.insertIntoDB
 );
 

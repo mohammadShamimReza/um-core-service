@@ -39,10 +39,10 @@ const create = z.object({
       required_error: 'Academic faculty is required',
     }),
     emergencyContactNo: z.string({
-      required_error: 'managementDepartmentId is required',
+      required_error: 'emergencyContactNo is required',
     }),
     dateOfBirth: z.string({
-      required_error: 'managementDepartmentId is required',
+      required_error: 'dateOfBirth is required',
     }),
   }),
 });

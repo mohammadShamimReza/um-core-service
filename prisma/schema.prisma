@@ -144,6 +144,7 @@ model Faculty {
   password     String @default("123456")
   emergencyContactNo String @default("123456")
   dateOfBirth String @default("2024-05-16T18:29:13.437Z")
+  academicDepartmentName String @default("CSE")
 
   academicDepartment   AcademicDepartment @relation(fields: [academicDepartmentId], references: [id])
   academicDepartmentId String
@@ -405,6 +406,17 @@ model StudentAcademicInfo {
   cgpa                 Float?   @default(0)
 
   @@map("student_academic_infos")
+}
+
+model Notice {
+id                   String   @id @default(uuid())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  title               String
+  description String
+
+
+  @@map("notice")
 }
 
 enum SemesterRegistrationStatus {
