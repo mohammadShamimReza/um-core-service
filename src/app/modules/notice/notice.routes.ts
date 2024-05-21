@@ -26,4 +26,4 @@ router.delete(
   NoticeController.deleteFromDB
 );
 
-export const studentRoutes = router;
+export const NoticeRoutes = router;
