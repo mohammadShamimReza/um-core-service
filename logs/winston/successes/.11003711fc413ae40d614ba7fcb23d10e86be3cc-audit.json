@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/msh/Documents/University/um-core-service/logs/winston/successes/.11003711fc413ae40d614ba7fcb23d10e86be3cc-audit.json",
+    "files": [
+        {
+            "date": 1716627400911,
+            "name": "/home/msh/Documents/University/um-core-service/logs/winston/successes/phu-2024-25-05-14-success.log",
+            "hash": "30ba020145fc97456e45f31e8ee6276158f67fa1db88e32ee000dc5a17e1483b"
+        },
+        {
+            "date": 1716690552314,
+            "name": "/home/msh/Documents/University/um-core-service/logs/winston/successes/phu-2024-26-05-08-success.log",
+            "hash": "4613c421f44cbcc0ab3c88cf6e030924f6b53a3f70667c3e8cdc54322abd3eb4"
+        }
+    ],
+    "hashType": "sha256"
+}
